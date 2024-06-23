@@ -5,7 +5,18 @@ if (!suppliedPublicKey) {
     throw new Error("Provide a public key to check the balance of!");
 }
 
-const publicKey = new PublicKey(suppliedPublicKey);
+function checkAddressIsVaild(suppliedPublicKey: string) {
+    try {
+        const publicKey = new PublicKey(suppliedPublicKey);
+        return publicKey;
+    } catch (error) {
+        console.log(`Address is not correct`);
+        throw error;
+    }
+}
+
+
+const publicKey = checkAddressIsVaild(suppliedPublicKey);
 const connection = new Connection(clusterApiUrl("devnet"));
 
 const balanceInLamports = await connection.getBalance(publicKey);
